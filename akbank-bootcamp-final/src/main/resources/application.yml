@@ -1,0 +1,39 @@
+openweathermap:
+  apiKey: 92eaa6aee9f1385c5e00dc7c7f4ac0fb
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  datasource:
+    password: kalower1967
+    url: jdbc:postgresql://localhost:5432/registrations
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gulacmustafa1@gmail.com
+    password: tqjbxhsdebngxcby
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+

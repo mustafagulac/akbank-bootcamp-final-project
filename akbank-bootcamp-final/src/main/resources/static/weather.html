@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hava Durumu Tahmini</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#weatherForm').submit(function(event) {
+        event.preventDefault();
+        var city = $('#cityInput').val();
+        var baseUrl = window.location.protocol + '//' + window.location.host + '/weather/';
+        var url = baseUrl + city;
+        getWeatherForecast(url);
+      });
+
+      function getWeatherForecast(url) {
+        $.get(url, function(data) {
+          displayWeatherForecast(data);
+        }).fail(function() {
+          $('#result').text('Hava durumu tahmini alınamadı.');
+        });
+      }
+
+      function displayWeatherForecast(data) {
+        var forecastList = data.list;
+
+        var forecastHTML = '';
+        for (var i = 0; i < forecastList.length; i++) {
+          var forecast = forecastList[i];
+          var dateTime = forecast.dt_txt;
+          var temperature = forecast.main.temp;
+          var celsiusTemperature = (temperature - 273.15).toFixed(2); // Kelvin to Celsius conversion
+
+          var formattedDate = new Date(dateTime).toLocaleDateString('tr-TR');
+          var formattedTime = new Date(dateTime).toLocaleTimeString('tr-TR');
+
+          forecastHTML += '<p>Tarih: ' + formattedDate + '</p>';
+          forecastHTML += '<p>Saat: ' + formattedTime + '</p>';
+          forecastHTML += '<p>Sıcaklık: ' + celsiusTemperature + '°C</p>';
+          forecastHTML += '<hr>';
+        }
+
+        $('#result').html(forecastHTML);
+      }
+    });
+  </script>
+
+
+
+
+
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4">Hava Durumu Tahmini</h1>
+  <form id="weatherForm" class="mt-4">
+    <div class="form-group">
+      <label for="cityInput">Şehir:</label>
+      <input type="text" id="cityInput" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Tahmini Getir</button>
+  </form>
+  <div id="result" class="mt-4"></div>
+</div>
+</body>
+</html>
